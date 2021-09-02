@@ -21,17 +21,17 @@
             <div class="d-flex align-items-center">
 
                 {% if is_granted('ROLE_USER') %}
-                <a href="{{path('addGame')}}" class="btn btn-warning align-middle">Subir un
-                    juego<i class="fas fa-plus-circle ms-2 text-white"></i></a>
-                <a href="{{path('userArea')}}" class="text-reset text-decoration-none ms-3 ms-sm-5">Hola, {{app.user.name}}<i
-                        class="fas fa-user-astronaut ms-2 text-warning"></i></a>
+                <a href="{{path('addGame')}}" class="btn btn-warning align-middle">Añadir juego<i
+                        class="fas fa-plus-circle ms-2 text-white"></i></a>
+                <a href="{{path('userArea')}}" class="text-reset text-decoration-none ms-3 ms-sm-5">Hola,
+                    {{app.user.name}}<i class="fas fa-user-astronaut ms-2 text-warning"></i></a>
                 <a href="{{path('app_logout')}}" class="text-reset text-decoration-none ms-3 ms-sm-5">Salir<i
                         class="fas fa-sign-out-alt ms-2 text-warning"></i></a>
                 {% else %}
                 <a href="{{path('app_register')}}" class="text-reset text-decoration-none">Únete<i
                         class="fas fa-user-plus ms-2 text-warning"></i></a>
-                <a href="{{path('app_login')}}" class="text-reset text-decoration-none ms-3 ms-sm-5">Accede a tu cuenta<i
-                        class="fas fa-unlock-alt ms-2 text-warning"></i></a>
+                <a href="{{path('app_login')}}" class="text-reset text-decoration-none ms-3 ms-sm-5">Accede a tu
+                    cuenta<i class="fas fa-unlock-alt ms-2 text-warning"></i></a>
                 {% endif %}
             </div>
         </div>

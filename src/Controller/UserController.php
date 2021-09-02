@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Game;
+use App\Form\GameFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,9 +28,9 @@ class UserController extends AbstractController
     {
         // TODO: Obtener id de usuario loggeado y usarlo para encontrar todos los juegos con dicho id como "owner".
         $repo = $doctrine->getRepository(Game::class);
-        // $games = $repo->findBy(["owner"=>$userId]);
+        $games = $repo->findBy(["owner"=>$this->getUser()]);
 
-        // return $this->render("/user/my-games.html.twig", ["games" => $games]);
+        return $this->render("/user/my-games.html.twig", ["games" => $games]);
     }
 
     /**
@@ -41,8 +43,9 @@ class UserController extends AbstractController
     
             if ($form->isSubmitted() && $form->isValid()) {
                 $game = $form->getData();
-                // Aplicar id de user a owner.
-                $game->setOwner();
+
+                $user = $this->getUser();
+                $game->setOwner($user);
     
                 $doctrine->persist($game);
                 $doctrine->flush();
@@ -56,10 +59,13 @@ class UserController extends AbstractController
     /**
      * @Route("/user/game/edit/{id}", name="editGame")
      */
-    public function editGame()
+    public function editGame($id, EntityManagerInterface $doctrine)
     {
+        $repo = $doctrine->getRepository(Game::class);
+        $game = $repo->find($id);
+
         // TODO: Añadir formulario de edición.
-        return $this->render("/user/edit-game.html.twig");
+        return $this->render("/game/edit-game.html.twig");
     }
 
     /**
@@ -73,8 +79,7 @@ class UserController extends AbstractController
         $doctrine->remove($game);
         $doctrine->flush();
 
-        return $this->redirectToRoute("listPokemons");
-        return $this->redirectToRoute("/user/my-games.html.twig");
+        return $this->redirectToRoute("myGames");
     }
 
     /**
