@@ -21,7 +21,6 @@ class GameFormType extends AbstractType
             ->add('maxPlaytime')
             ->add('publisher')
             ->add('yearPublished')
-            ->add('owner')
         ;
     }
 

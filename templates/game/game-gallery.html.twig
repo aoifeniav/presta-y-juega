@@ -1,3 +1,12 @@
 {% extends "base.html.twig" %}
 
 {% block title %} Presta y Juega: Juegos {% endblock %}
+
+{% block body %}
+{% for message in app.flashes('registerSuccessful') %}
+<p class="container text-center fs-5">{{ message }}</p>
+{% endfor %}
+<section class="container">
+    <h4 class="text-center">Aquí tienes algunos juegos que te pueden interesar:</h4>
+</section>
+{% endblock %}

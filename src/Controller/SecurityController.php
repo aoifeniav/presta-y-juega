@@ -63,9 +63,9 @@ class SecurityController extends AbstractController
             $doctrine->persist($user);
             $doctrine->flush();
 
-            // TODO: Añadir mensaje flash.
+            $this->addFlash('registerSuccessful', 'Te damos la bienvenida a Presta y Juega.');
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('gameGallery');
         }
 
         return $this->render('/security/register.html.twig', ['registerForm'=>$form->createView()]);
