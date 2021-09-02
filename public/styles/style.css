@@ -1,1 +1,26 @@
-/* No CSS *//*# sourceMappingURL=style.css.map */
+@font-face {
+  font-family: "Varta";
+  src: url("./fonts/Varta/static/Varta-Light.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Varta";
+  src: url("./fonts/Varta/static/Varta-Bold.ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  font-family: "Varta";
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.container {
+  max-width: 1200px;
+  padding: 0 20px;
+}
+/*# sourceMappingURL=style.css.map */
