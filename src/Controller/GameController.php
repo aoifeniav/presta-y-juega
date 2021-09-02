@@ -28,6 +28,6 @@ class GameController extends AbstractController
         $repo = $doctrine->getRepository(Game::class);
         $game = $repo->find($id);
 
-        return $this-> render("game/game-view.html.twig", ["game" => $game]);
+        return $this->render("game/game-view.html.twig", ["game" => $game]);
     }
 }

@@ -4,16 +4,41 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Presta y Juega: Intercambio de juegos de mesa{% endblock %}</title>
-    <style rel="stylesheet" href="{{asset("styles/style.css")}}"></style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/c4a8f670ae.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <header>
-        <div class="container">
+    <header class="py-3 border-bottom border-1 mb-5">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="w-50">
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Quiero jugar a…" aria-label="Search">
+                    <button class="btn btn-outline-warning" type="submit">¡Dale!</button>
+                </form>
+            </div>
+            <div class="d-flex align-items-center">
 
+                {% if is_granted('ROLE_USER') %}
+                <a href="{{path('addGame')}}" class="btn btn-warning align-middle">Subir un
+                    juego<i class="fas fa-plus-circle ms-2 text-white"></i></a>
+                <a href="{{path('userArea')}}" class="text-reset text-decoration-none ms-3 ms-sm-5">Hola, {{app.user.name}}<i
+                        class="fas fa-user-astronaut ms-2 text-warning"></i></a>
+                <a href="{{path('app_logout')}}" class="text-reset text-decoration-none ms-3 ms-sm-5">Salir<i
+                        class="fas fa-sign-out-alt ms-2 text-warning"></i></a>
+                {% else %}
+                <a href="{{path('app_register')}}" class="text-reset text-decoration-none">Únete<i
+                        class="fas fa-user-plus ms-2 text-warning"></i></a>
+                <a href="{{path('app_login')}}" class="text-reset text-decoration-none ms-3 ms-sm-5">Accede a tu cuenta<i
+                        class="fas fa-unlock-alt ms-2 text-warning"></i></a>
+                {% endif %}
+            </div>
         </div>
     </header>
-    {% block body %}{% endblock %}
+    <main class=container>
+        {% block body %}{% endblock %}
+    </main class=container>
 </body>
 
 </html>

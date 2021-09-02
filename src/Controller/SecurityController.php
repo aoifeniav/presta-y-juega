@@ -20,9 +20,9 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+        if ($this->getUser()) {
+            return $this->redirectToRoute('home');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -49,16 +49,21 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Gracias a Form, como este formulario está asociado a la entidad user, sus datos se setean automáticamente en un nuevo objeto $user.
             $user = $form->getData();
 
+            // Tratamiento especial para la contraseña: hay que hashearla.
             $password = $user->getPassword();
             $passwordEncode = $encoder->encodePassword($user, $password);
             $user->setPassword($passwordEncode);
 
+            // Asigno un rol manualmente porque este dato no aparece en el formulario.
             $user->setRoles(['ROLE_USER']);
 
             $doctrine->persist($user);
             $doctrine->flush();
+
+            // TODO: Añadir mensaje flash.
 
             return $this->redirectToRoute('app_login');
         }

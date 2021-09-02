@@ -3,11 +3,11 @@
 {% block title %}Presta y Juega: Regístrate{% endblock %}
 
 {% block body %}
-<h1>Únete a la comunidad</h1>
-<div>
+<div class="">
+    <h3>Únete a la comunidad de Presta y Juega<i class="fas fa-dice text-warning ms-3"></i></h3>
     {{ form_start(registerForm) }}
     {{ form_widget(registerForm) }}
-    <button type="submit">Registrarme</button>
+    <button class="btn btn-warning mt-4" type="submit">Crear cuenta</button>
     {{ form_end(registerForm) }}
 </div>
 {% endblock %}
