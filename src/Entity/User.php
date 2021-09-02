@@ -66,6 +66,11 @@ class User implements UserInterface
      */
     private $operationsAsLender;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $province;
+
     public function __construct()
     {
         $this->games = new ArrayCollection();
@@ -276,6 +281,18 @@ class User implements UserInterface
                 $operationsAsLender->setLender(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProvince(): ?string
+    {
+        return $this->province;
+    }
+
+    public function setProvince(?string $province): self
+    {
+        $this->province = $province;
 
         return $this;
     }

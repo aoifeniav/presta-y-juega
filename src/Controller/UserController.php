@@ -5,6 +5,9 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class UserController extends AbstractController
 {
@@ -31,10 +34,23 @@ class UserController extends AbstractController
     /**
      * @Route("/user/game/new", name="addGame")
      */
-    public function addGame()
-    {
-        // TODO: Añadir formulario de creación.
-        return $this->render("/user/add-game.html.twig");
+    public function addGame(Request $request, EntityManagerInterface $doctrine)
+        {
+            $form = $this->createForm(GameFormType::class);
+            $form->handleRequest($request);
+    
+            if ($form->isSubmitted() && $form->isValid()) {
+                $game = $form->getData();
+                // Aplicar id de user a owner.
+                $game->setOwner();
+    
+                $doctrine->persist($game);
+                $doctrine->flush();
+     
+                return $this->redirectToRoute('gameView', ['id'=>$game->getId()]);
+            }
+    
+            return $this->render('/game/add-game.html.twig', ['addGameForm'=>$form->createView()]);
     }
 
     /**
