@@ -1,19 +1,19 @@
 @font-face {
-  font-family: "Varta";
-  src: url("./fonts/Varta/static/Varta-Light.ttf");
+  font-family: "Montserrat";
+  src: url("./fonts/Montserrat/Montserrat-Medium.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Varta";
-  src: url("./fonts/Varta/static/Varta-Bold.ttf");
+  font-family: "Montserrat";
+  src: url("./fonts/Montserrat/Montserrat-Bold.ttf");
   font-weight: bold;
   font-style: normal;
 }
 
 body {
-  font-family: "Varta";
+  font-family: "Montserrat";
   font-weight: normal;
 }
 /*# sourceMappingURL=style.css.map */

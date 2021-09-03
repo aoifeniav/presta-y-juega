@@ -1,53 +1,89 @@
 {% extends "base.html.twig" %}
 
-{% block title %} Presta y Juega: {{game.name}} {% endblock %}
+{% block title %}
+	Presta y Juega:
+	{{game.name}}
+{% endblock %}
 
 {% block body %}
-<section class="d-flex justify-content-center align-items-center">
-    <div style="background-image: url('{{game.image}}'); background-position: center; background-size: 100%; background-repeat: no-repeat; width: 260px; height: 260px" class="border border-1 me-5">
-    </div>
-    <div>
-        <h3>{{game.name}}</h3>
-        <dl class="row">
-            <dt class="col-sm-3">Número de jugadores</dt>
-            <dd class="col-sm-9">
-                {% if game.minPlayers and game.maxPlayers %}
-                De {{game.minPlayers}} a {{game.maxPlayers}}
-                {% elseif game.minPlayers and not game.maxPlayers %}
-                A partir de {{game.minPlayers}}
-                {% elseif not game.minPlayers and game.maxPlayers %}
-                Hasta {{game.maxPlayers}}
-                {% elseif game.minPlayers == game.maxPlayers %}
-                {{game.maxPlayers}}
-                {% else %}
-                -
-                {% endif %}
-            </dd>
-            <dt class="col-sm-3">Tiempo de juego</dt>
-            <dd class="col-sm-9">
-                {% if game.minPlaytime and game.maxPlaytime %}
-                Entre {{game.minPlaytime}} y {{game.maxPlaytime}} minutos
-                {% elseif game.minPlaytime and not game.maxPlaytime %}
-                Mínimo {{game.minPlaytime}} minutos
-                {% elseif not game.minPlaytime and game.maxPlaytime %}
-                Máximo {{game.maxPlaytime}} minutos
-                {% elseif game.minPlaytime == game.maxPlaytime %}
-                {{game.maxPlaytime}} minutos
-                {% else %}
-                -
-                {% endif %}
-            <dt class="col-sm-3">Edad mínima</dt>
-            <dd class="col-sm-9">{% if game.minAge %} {{game.minAge}} años {% else %} - {% endif %}</dd>
-            <dt class="col-sm-3">Editorial</dt>
-            <dd class="col-sm-9">{% if game.publisher %} {{game.publisher}} {% else %} - {% endif %}</dd>
-            <dt class="col-sm-3">Año de publicación</dt>
-            <dd class="col-sm-9">{% if game.yearPublished %} {{game.yearPublished}} {% else %} - {% endif %}</dd>
-        </dl>
-        {% if app.user == game.owner %}
-        <a href="{{path('editGame', {'id': game.id})}}" class="btn btn-outline-warning">Editar detalles</a>
-        {% else %}
-        <a href="#" class="btn btn-warning">Quiero intercambiarlo</a>
-        {% endif %}
-    </div>
-</section>
+	<section class="d-flex justify-content-center align-items-center">
+		<div style="background-image: url('{{game.image}}'); background-position: center; background-size: 100%; background-repeat: no-repeat; width: 260px; height: 260px" class="border border-1 me-5"></div>
+		<div>
+			<h3>{{game.name}}</h3>
+			<dl class="row">
+				<dt class="col-sm-3">Número de jugadores</dt>
+				<dd class="col-sm-9">
+					{% if game.minPlayers and game.maxPlayers %}
+						De
+						{{game.minPlayers}}
+						a
+						{{game.maxPlayers}}
+					{% elseif game.minPlayers and not game.maxPlayers %}
+						A partir de
+						{{game.minPlayers}}
+					{% elseif not game.minPlayers and game.maxPlayers %}
+						Hasta
+						{{game.maxPlayers}}
+					{% elseif not game.minPlaytime and not game.maxPlaytime %}
+						-
+					{% elseif game.minPlayers == game.maxPlayers %}
+						{{game.maxPlayers}}
+					{% endif %}
+				</dd>
+				<dt class="col-sm-3">Tiempo de juego</dt>
+				<dd class="col-sm-9">
+					{% if game.minPlaytime and game.maxPlaytime %}
+						Entre
+						{{game.minPlaytime}}
+						y
+						{{game.maxPlaytime}}
+						minutos
+					{% elseif game.minPlaytime and not game.maxPlaytime %}
+						Mínimo
+						{{game.minPlaytime}}
+						minutos
+					{% elseif not game.minPlaytime and game.maxPlaytime %}
+						Máximo
+						{{game.maxPlaytime}}
+						minutos
+					{% elseif not game.minPlaytime and not game.maxPlaytime %}
+						-
+					{% elseif game.minPlaytime is same as(game.maxPlaytime) %}
+						{{game.maxPlaytime}}
+						minutos
+					{% endif %}
+				</dd>
+				<dt class="col-sm-3">Edad mínima</dt>
+				<dd class="col-sm-9">
+					{% if game.minAge %}
+						{{game.minAge}}
+						años
+					{% else %}
+						-
+					{% endif %}
+				</dd>
+				<dt class="col-sm-3">Editorial</dt>
+				<dd class="col-sm-9">
+					{% if game.publisher %}
+						{{game.publisher}}
+					{% else %}
+						-
+					{% endif %}
+				</dd>
+				<dt class="col-sm-3">Año de publicación</dt>
+				<dd class="col-sm-9">
+					{% if game.yearPublished %}
+						{{game.yearPublished}}
+					{% else %}
+						-
+					{% endif %}
+				</dd>
+			</dl>
+			{% if app.user == game.owner %}
+				<a href="{{path('deleteGame', {'id': game.id})}}" class="btn btn-outline-warning">Eliminar juego</a>
+			{% else %}
+				<a href="#" class="btn btn-warning">Quiero intercambiarlo</a>
+			{% endif %}
+		</div>
+	</section>
 {% endblock %}

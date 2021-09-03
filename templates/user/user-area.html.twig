@@ -1,3 +1,11 @@
 {% extends "base.html.twig" %}
 
 {% block title %} Presta y Juega: Área personal {% endblock %}
+
+{% block body %}
+<h4 class="text-center mb-5">Este es tu panel de usuario</h4>
+<div class="text-center">
+    <a href="{{path('myGames')}}" class="btn btn-lg btn-warning m-4">Mis juegos</a>
+    <a href="{{path('myExchanges')}}" class="btn btn-lg btn-warning m-4">Mis intercambios</a>
+</div>
+{% endblock %}

@@ -8,8 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class UserController extends AbstractController
 {
@@ -26,7 +24,6 @@ class UserController extends AbstractController
      */
     public function myGames(EntityManagerInterface $doctrine)
     {
-        // TODO: Obtener id de usuario loggeado y usarlo para encontrar todos los juegos con dicho id como "owner".
         $repo = $doctrine->getRepository(Game::class);
         $games = $repo->findBy(["owner" => $this->getUser()]);
 
@@ -89,6 +86,8 @@ class UserController extends AbstractController
 
         $doctrine->remove($game);
         $doctrine->flush();
+
+        $this->addFlash('deletionSuccessful', "Se ha eliminado el juego correctamente.");
 
         return $this->redirectToRoute("myGames");
     }

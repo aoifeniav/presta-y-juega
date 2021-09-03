@@ -1,9 +1,5 @@
 {% extends "base.html.twig" %}
 
-{% block title %}
-	Presta y Juega: Juegos
-{% endblock %}
-
 {% block body %}
 	{% for message in app.flashes('registerSuccessful') %}
 		<h5 class="text-center mb-5">{{ message }}</h5>
@@ -13,10 +9,10 @@
 		<div class="d-flex flex-wrap">
 			{% for game in games %}
 				<div class="card mx-3" style="width: 18rem;">
-					<div style="background-image: url('{{game.image}}'); background-position: center; background-size: 75%; background-repeat: no-repeat; width: 100%; height: 160px"></div>
+					<div style="background-image: url('{{game.image}}'); background-position: center; background-size: 75%; background-repeat: no-repeat; width: 100%; height: 260px"></div>
 					<div class="card-body">
 						<h5 class="card-title">{{game.name}}</h5>
-						<a href="#" class="btn btn-outline-warning">Me interesa</a>
+						<a href="{{path('gameView', {'id': game.id})}}" class="btn btn-outline-warning">Me interesa</a>
 					</div>
 				</div>
 			{% endfor %}
