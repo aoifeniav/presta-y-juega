@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,12 +18,26 @@ class GameController extends AbstractController
         $repo = $doctrine->getRepository(Game::class);
 
         if ($this->getUser()) {
-        $games = $repo->findAllByOwnerDifferentThan($this->getUser()->getId());
+            $games = $repo->findAllByOwnerDifferentThan($this->getUser()->getId());
         } else {
-        $games = $repo->findAll();
+            $games = $repo->findAll();
         }
 
         return $this->render("game/game-gallery.html.twig", ["games" => $games]);
+    }
+
+    /**
+     * @Route("/games/user/{id}", name="userGames")
+     */
+    public function showUserGames($id, EntityManagerInterface $doctrine)
+    {
+        $repo = $doctrine->getRepository(Game::class);
+        $games = $repo->findAllByOwner($id);
+
+        $repo = $doctrine->getRepository(User::class);
+        $user = $repo->find($id);
+
+        return $this->render("game/user-gallery.html.twig", ['games' => $games, 'user' => $user]);
     }
 
     /**

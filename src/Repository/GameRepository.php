@@ -12,6 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Game[]    findAll()
  * @method Game[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @method Game[]    findAllByOwnerDifferentThan(int $id)
+ * @method Game[]    findAllByOwner(int $id)
  */
 class GameRepository extends ServiceEntityRepository
 {
@@ -19,6 +20,15 @@ class GameRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Game::class);
     }
+
+    public function findAllByOwner($id)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT g FROM App:Game g WHERE g.owner = '.$id)
+            ->getResult();
+    }
+
 
     public function findAllByOwnerDifferentThan($id)
     {
