@@ -6,14 +6,14 @@
 
 {% block body %}
 	{% for message in app.flashes('registerSuccessful') %}
-		<h5 class="container text-center mb-5">{{ message }}</h5>
+		<h5 class="text-center mb-5">{{ message }}</h5>
 	{% endfor %}
-	<section class="container">
+	<section>
 		<h4 class="text-center mb-5">Aquí tienes algunos juegos que te pueden interesar</h4>
 		<div class="d-flex flex-wrap">
 			{% for game in games %}
 				<div class="card mx-3" style="width: 18rem;">
-					<div style="background-image: url('{{game.image}}'); background-position: top;  background-size: 75%; background-repeat: no-repeat; width: 100%; height: 160px"></div>
+					<div style="background-image: url('{{game.image}}'); background-position: center; background-size: 75%; background-repeat: no-repeat; width: 100%; height: 160px"></div>
 					<div class="card-body">
 						<h5 class="card-title">{{game.name}}</h5>
 						<a href="#" class="btn btn-outline-warning">Me interesa</a>
