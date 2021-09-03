@@ -28,7 +28,7 @@ class UserController extends AbstractController
     {
         // TODO: Obtener id de usuario loggeado y usarlo para encontrar todos los juegos con dicho id como "owner".
         $repo = $doctrine->getRepository(Game::class);
-        $games = $repo->findBy(["owner"=>$this->getUser()]);
+        $games = $repo->findBy(["owner" => $this->getUser()]);
 
         return $this->render("/user/my-games.html.twig", ["games" => $games]);
     }
@@ -37,35 +37,46 @@ class UserController extends AbstractController
      * @Route("/user/game/new", name="addGame")
      */
     public function addGame(Request $request, EntityManagerInterface $doctrine)
-        {
-            $form = $this->createForm(GameFormType::class);
-            $form->handleRequest($request);
-    
-            if ($form->isSubmitted() && $form->isValid()) {
-                $game = $form->getData();
+    {
+        $form = $this->createForm(GameFormType::class);
+        $form->handleRequest($request);
 
-                $user = $this->getUser();
-                $game->setOwner($user);
-    
-                $doctrine->persist($game);
-                $doctrine->flush();
-     
-                return $this->redirectToRoute('gameView', ['id'=>$game->getId()]);
-            }
-    
-            return $this->render('/game/add-game.html.twig', ['addGameForm'=>$form->createView()]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $game = $form->getData();
+
+            $user = $this->getUser();
+            $game->setOwner($user);
+
+            $doctrine->persist($game);
+            $doctrine->flush();
+
+            return $this->redirectToRoute('gameView', ['id' => $game->getId()]);
+        }
+
+        return $this->render('/game/add-game.html.twig', ['addGameForm' => $form->createView()]);
     }
 
     /**
      * @Route("/user/game/edit/{id}", name="editGame")
      */
-    public function editGame($id, EntityManagerInterface $doctrine)
+    public function editGame($id, Request $request, EntityManagerInterface $doctrine)
     {
         $repo = $doctrine->getRepository(Game::class);
         $game = $repo->find($id);
 
-        // TODO: Añadir formulario de edición.
-        return $this->render("/game/edit-game.html.twig");
+        $form = $this->createForm(GameFormType::class, $game);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $game = $form->getData();
+
+            $doctrine->persist($game);
+            $doctrine->flush();
+
+            return $this->redirectToRoute('gameView', ['id' => $game->getId()]);
+        }
+
+        return $this->render("/game/edit-game.html.twig", ['editGameForm' => $form->createView(), 'game' => $game]);
     }
 
     /**

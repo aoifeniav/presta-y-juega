@@ -15,7 +15,8 @@ class GameController extends AbstractController
     public function listGames(EntityManagerInterface $doctrine)
     {
         $repo = $doctrine->getRepository(Game::class);
-        $games = $repo->findAll();
+        // TODO: Cambiar que devuelva los juegos del user por todos los user que no sean el logueado.
+        $games = $repo->findBy(['owner'=>$this->getUser()], null, 20);
 
         return $this->render("game/game-gallery.html.twig", ["games" => $games]);
     }
@@ -28,6 +29,6 @@ class GameController extends AbstractController
         $repo = $doctrine->getRepository(Game::class);
         $game = $repo->find($id);
 
-        return $this->render("game/game-view.html.twig", ["game" => $game]);
+        return $this->render("game/game-view.html.twig", ['game' => $game]);
     }
 }

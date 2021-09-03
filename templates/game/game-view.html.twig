@@ -4,7 +4,7 @@
 
 {% block body %}
 <section class="d-flex justify-content-center align-items-center">
-    <div style="background-image: url('{{game.image}}'); width: 260px; height: 260px" class="border border-1 me-5">
+    <div style="background-image: url('{{game.image}}'); background-position: top;  background-size: 100%; background-repeat: no-repeat; width: 260px; height: 260px" class="border border-1 me-5">
     </div>
     <div>
         <h3>{{game.name}}</h3>
@@ -17,6 +17,8 @@
                 A partir de {{game.minPlayers}}
                 {% elseif not game.minPlayers and game.maxPlayers %}
                 Hasta {{game.maxPlayers}}
+                {% elseif game.minPlayers == game.maxPlayers %}
+                {{game.maxPlayers}}
                 {% else %}
                 -
                 {% endif %}
@@ -29,6 +31,8 @@
                 Mínimo {{game.minPlaytime}} minutos
                 {% elseif not game.minPlaytime and game.maxPlaytime %}
                 Máximo {{game.maxPlaytime}} minutos
+                {% elseif game.minPlaytime == game.maxPlaytime %}
+                {{game.maxPlaytime}} minutos
                 {% else %}
                 -
                 {% endif %}
@@ -40,8 +44,7 @@
             <dd class="col-sm-9">{% if game.yearPublished %} {{game.yearPublished}} {% else %} - {% endif %}</dd>
         </dl>
         {% if app.user == game.owner %}
-        <!-- TODO: Añadir ruta para editar juego; editGame da error -->
-        <a href="#" class="btn btn-outline-warning">Editar detalles</a>
+        <a href="{{path('editGame', {'id': game.id})}}" class="btn btn-outline-warning">Editar detalles</a>
         {% else %}
         <a href="#" class="btn btn-warning">Quiero intercambiarlo</a>
         {% endif %}
