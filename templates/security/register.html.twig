@@ -1,15 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Presta y Juega: Regístrate{% endblock %}
+{% block title %}Presta y Juega:
+	{% if not app.user %}
+		Regístrate
+	{% else %}
+		Editando datos de usuario
+	{% endif %}
+{% endblock %}
 
 {% block body %}
-    <h3>Únete a la comunidad de Presta y Juega<i class="fas fa-dice text-warning ms-3"></i></h3>
-    {{ form_start(registerForm) }}
-    {{ form_row(registerForm.name, { 'label': 'Nombre' }) }}    
-    {{ form_row(registerForm.surname, { 'label': 'Apellido(s)' }) }}    
-    {{ form_row(registerForm.province, { 'label': 'Provincia' }) }}    
-    {{ form_row(registerForm.email, { 'label': 'E-mail' }) }}
-    {{ form_widget(registerForm) }}
-    <button class="btn btn-warning mt-4" type="submit">Crear cuenta</button>
-    {{ form_end(registerForm) }}
+	{% if not app.user %}
+		<h3>Únete a la comunidad de Presta y Juega<i class="fas fa-dice text-warning ms-3"></i>
+		</h3>
+	{% else %}
+		<h3>Aquí puedes editar tu información de usuario.</h3>
+	{% endif %}
+
+	{{ form_start(registerForm) }}
+	{{ form_row(registerForm.name, { 'label': 'Nombre' }) }}
+	{{ form_row(registerForm.surname, { 'label': 'Apellido(s)' }) }}
+	{{ form_row(registerForm.province, { 'label': 'Provincia' }) }}
+	{{ form_row(registerForm.email, { 'label': 'E-mail' }) }}
+	{{ form_widget(registerForm) }}
+
+	{% if not app.user %}
+		<button class="btn btn-warning mt-4" type="submit">Crear cuenta</button>
+	{% else %}
+		<button class="btn btn-warning mt-4" type="submit">Guardar datos</button>
+	{% endif %}
+
+	{{ form_end(registerForm) }}
 {% endblock %}

@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\User;
 use App\Form\GameFormType;
+use App\Form\UserFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
@@ -17,6 +20,35 @@ class UserController extends AbstractController
     public function user()
     {
         return $this->render('/user/user-area.html.twig');
+    }
+
+        /**
+     * @Route("/user/edit", name="editUser")
+     */
+    public function register(Request $request, EntityManagerInterface $doctrine, UserPasswordEncoderInterface $encoder)
+    {
+        $repo = $doctrine->getRepository(User::class);
+        $user = $repo->find($this->getUser());
+
+        $form = $this->createForm(UserFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+
+            $password = $user->getPassword();
+            $passwordEncode = $encoder->encodePassword($user, $password);
+            $user->setPassword($passwordEncode);
+
+            $doctrine->persist($user);
+            $doctrine->flush();
+
+            $this->addFlash('userInfoEditSuccessful', 'Tus datos de usuario se han guardado correctamente.');
+
+            return $this->redirectToRoute('userArea');
+        }
+
+        return $this->render('/security/register.html.twig', ['registerForm'=>$form->createView()]);
     }
 
     /**

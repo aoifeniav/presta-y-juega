@@ -5,15 +5,17 @@
 {% endblock %}
 
 {% block body %}
+	{% for message in app.flashes('userInfoEditSuccessful') %}
+		<h5 class="text-center mb-5">{{ message }}</h5>
+	{% endfor %}
 	<h4 class="text-center mb-5">Este es tu panel de usuario</h4>
 	<div class="text-center">
 		<a href="{{path('myGames')}}" class="btn btn-lg btn-warning m-4">Mis juegos</a>
 		<a href="{{path('myExchanges')}}" class="btn btn-lg btn-warning m-4">Mis intercambios</a>
 		<a href="#" class="btn btn-lg btn-warning m-4  position-relative">Solicitudes
 			<!-- Poner esto con un if -->
-			<span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-			</span>
+			<span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"></span>
 		</a>
-		<a href="{{path('myGames')}}" class="btn btn-lg btn-warning m-4">Editar mis datos</a>
+		<a href="{{path('editUser')}}" class="btn btn-lg btn-warning m-4">Editar mis datos</a>
 	</div>
 {% endblock %}
