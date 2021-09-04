@@ -26,7 +26,7 @@ class GameController extends AbstractController
         }
 
         $search = $request->query->get('search');
-        $games = $repo->findAllWithSearch($search);
+        $games = $repo->findAllBySearch($search);
 
         return $this->render('game/game-gallery.html.twig', ['games' => $games]);
     }

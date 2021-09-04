@@ -13,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Game[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @method Game[]    findAllByOwnerDifferentThan(int $id)
  * @method Game[]    findAllByOwner(int $id)
- * @method Game[]    findAllWithSearch(?string $query)
+ * @method Game[]    findAllBySearch(?string $query)
  */
 class GameRepository extends ServiceEntityRepository
 {
@@ -26,7 +26,8 @@ class GameRepository extends ServiceEntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT g FROM App:Game g WHERE g.owner = '.$id)
+                'SELECT g FROM App:Game g WHERE g.owner = ' . $id
+            )
             ->getResult();
     }
 
@@ -34,24 +35,23 @@ class GameRepository extends ServiceEntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT g FROM App:Game g WHERE g.owner <> '.$id)
+                'SELECT g FROM App:Game g WHERE g.owner <> ' . $id
+            )
             ->getResult();
     }
 
-    public function findAllWithSearch(?string $query)
+    public function findAllBySearch(string $query)
     {
         $qb = $this->createQueryBuilder('g');
         if ($query) {
             $qb->andWhere('g.name LIKE :query')
-                ->setParameter('query', '%' . $query . '%')
-            ;
+                ->setParameter('query', '%' . $query . '%');
         }
         return $qb
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    
+
     // /**
     //  * @return Game[] Returns an array of Game objects
     //  */
