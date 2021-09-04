@@ -15,7 +15,7 @@ class GameController extends AbstractController
     /**
      * @Route("/games", name="gameGallery")
      */
-    public function listGames(EntityManagerInterface $doctrine)
+    public function listGames(EntityManagerInterface $doctrine, Request $request)
     {
         $repo = $doctrine->getRepository(Game::class);
 
@@ -24,6 +24,9 @@ class GameController extends AbstractController
         } else {
             $games = $repo->findAll();
         }
+
+        $search = $request->query->get('search');
+        $games = $repo->findAllWithSearch($search);
 
         return $this->render('game/game-gallery.html.twig', ['games' => $games]);
     }

@@ -13,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Game[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @method Game[]    findAllByOwnerDifferentThan(int $id)
  * @method Game[]    findAllByOwner(int $id)
- * @method Game[]    findByNameAndOwnerDifferentThan(string $name, int $owner)
+ * @method Game[]    findAllWithSearch(?string $query)
  */
 class GameRepository extends ServiceEntityRepository
 {
@@ -38,13 +38,18 @@ class GameRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findByNameAndOwnerDifferentThan($query, $id)
+    public function findAllWithSearch(?string $query)
     {
-        // TODO: No funciona la query. Da error cuando hay espacios o tildes.
-        return $this->getEntityManager()
-            ->createQuery(
-                "SELECT g FROM App:Game g WHERE g.name = $query AND g.owner <> $id")
-            ->getResult();
+        $qb = $this->createQueryBuilder('g');
+        if ($query) {
+            $qb->andWhere('g.name LIKE :query')
+                ->setParameter('query', '%' . $query . '%')
+            ;
+        }
+        return $qb
+            ->getQuery()
+            ->getResult()
+        ;
     }
     
     // /**
