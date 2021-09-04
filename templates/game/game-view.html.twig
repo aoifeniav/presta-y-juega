@@ -32,10 +32,7 @@
 				</dd>
 				<dt class="col-sm-3">Tiempo de juego</dt>
 				<dd class="col-sm-9">
-					{% if game.minPlaytime and game.maxPlaytime %}
-						Entre
-						{{game.minPlaytime}}
-						y
+					{% if game.minPlaytime is same as(game.maxPlaytime) %}
 						{{game.maxPlaytime}}
 						minutos
 					{% elseif game.minPlaytime and not game.maxPlaytime %}
@@ -48,7 +45,10 @@
 						minutos
 					{% elseif not game.minPlaytime and not game.maxPlaytime %}
 						-
-					{% elseif game.minPlaytime is same as(game.maxPlaytime) %}
+					{% elseif game.minPlaytime and game.maxPlaytime %}
+						Entre
+						{{game.minPlaytime}}
+						y
 						{{game.maxPlaytime}}
 						minutos
 					{% endif %}
@@ -80,40 +80,38 @@
 				</dd>
 			</dl>
 			{% if app.user == game.owner %}
+				<a href="{{path('editGame', {'id': game.id})}}" class="btn btn-outline-warning">Editar</a>
 				<a href="{{path('deleteGame', {'id': game.id})}}" class="btn btn-outline-warning">Eliminar</a>
+				<!-- TODO: Añadir condición para que Prestar solo salga si hay requests activas de este juego -->
 				<a href="#" class="btn btn-warning">Prestar</a>
+			{% elseif not app.user %}
+				<div class="btn btn-outline-warning">
+					Loguéate para pedir este juego
+				</div>
 			{% else %}
-				<!-- <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#requestSent">
+				<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#requestSent">
 					Pedir a
 					{{game.owner.name}}
-				</button> -->
-
-				<form action="sendGameRequest.php" method="post">
-					<input type="hidden" value="{{app.user.id}}" />
-					<input type="hidden" value="{{game.owner.id}}" />
-					<input type="hidden" value="{{game.id}}" />
-					<input type="submit" name="someAction" value="Pedir a {{game.owner.name}}" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#requestSent"/>
-				</form>
-							
-				<div class="modal fade" id="requestSent" tabindex="-1" aria-labelledby="requestSentLabel" aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="requestSentLabel">Juego pedido</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								{{game.owner.name}}
-								recibirá la petición de que te interesa su
-								{{game.name}}. Si le interesa alguno de tus juegos, podréis intercambiarlos.
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-warning" data-bs-dismiss="modal">Vale</button>
-							</div>
+				</button>
+			{% endif %}
+			<div class="modal fade" id="requestSent" tabindex="-1" aria-labelledby="requestSentLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="requestSentLabel">Juego solicitado</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							{{game.owner.name}}
+							recibirá la petición de que te interesa su
+							{{game.name}}.																																			Si le interesa alguno de tus juegos, podréis intercambiarlos.
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-warning" data-bs-dismiss="modal">Vale</button>
 						</div>
 					</div>
 				</div>
-			{% endif %}
+			</div>
 		</div>
 	</section>
 {% endblock %}

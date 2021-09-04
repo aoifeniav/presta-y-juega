@@ -50,7 +50,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('gameView', ['id' => $game->getId()]);
         }
 
-        return $this->render('/game/add-game.html.twig', ['addGameForm' => $form->createView()]);
+        return $this->render('/game/add-game.html.twig', ['gameForm' => $form->createView()]);
     }
 
     /**
@@ -73,7 +73,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('gameView', ['id' => $game->getId()]);
         }
 
-        return $this->render('/game/edit-game.html.twig', ['editGameForm' => $form->createView(), 'game' => $game]);
+        return $this->render('/game/edit-game.html.twig', ['gameForm' => $form->createView(), 'game' => $game]);
     }
 
     /**

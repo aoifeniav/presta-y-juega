@@ -19,11 +19,11 @@ class UserFormType extends AbstractType
             ->add('password', RepeatedType::class,
             [
                 'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Ambas contraseñas deben ser iguales.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat Password'],
+                'first_options'  => ['label' => 'Contraseña'],
+                'second_options' => ['label' => 'Repite la contraseña'],
             ]
             )
             ->add('name')

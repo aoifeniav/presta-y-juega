@@ -4,8 +4,16 @@
 
 {% block body %}
     <h3>{{game.name}}</h3>
-    {{ form_start(editGameForm) }}
-    {{ form_widget(editGameForm) }}
+    {{ form_start(gameForm) }}
+    {{ form_row(gameForm.name, { 'label': 'Nombre' }) }}
+    {{ form_row(gameForm.image, { 'label': 'Foto' }) }}
+    {{ form_row(gameForm.minPlayers, { 'label': 'Número mínimo de jugadores' }) }}
+    {{ form_row(gameForm.maxPlayers, { 'label': 'Número máximo de jugadores' }) }}
+    {{ form_row(gameForm.minAge, { 'label': 'Edad mínima recomendad' }) }}
+    {{ form_row(gameForm.minPlaytime, { 'label': 'Tiempo de juego mínimo (en minutos)' }) }}
+    {{ form_row(gameForm.maxPlaytime, { 'label': 'Tiempo de juego máximo (en minutos)' }) }}
+    {{ form_row(gameForm.publisher, { 'label': 'Editorial' }) }}
+    {{ form_row(gameForm.yearPublished, { 'label': 'Año de publicación' }) }}
     <button class="btn btn-warning mt-4" type="submit">Guardar</button>
-    {{ form_end(editGameForm) }}
+    {{ form_end(gameForm) }}
 {% endblock %}
