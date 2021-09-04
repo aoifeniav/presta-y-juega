@@ -7,6 +7,8 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
+use Symfony\Component\HttpFoundation\Request;
 
 class GameController extends AbstractController
 {
@@ -23,7 +25,7 @@ class GameController extends AbstractController
             $games = $repo->findAll();
         }
 
-        return $this->render("game/game-gallery.html.twig", ["games" => $games]);
+        return $this->render('game/game-gallery.html.twig', ['games' => $games]);
     }
 
     /**
@@ -31,13 +33,13 @@ class GameController extends AbstractController
      */
     public function showUserGames($id, EntityManagerInterface $doctrine)
     {
-        $repo = $doctrine->getRepository(Game::class);
-        $games = $repo->findAllByOwner($id);
-
         $repo = $doctrine->getRepository(User::class);
         $user = $repo->find($id);
 
-        return $this->render("game/user-gallery.html.twig", ['games' => $games, 'user' => $user]);
+        $repo = $doctrine->getRepository(Game::class);
+        $games = $repo->findAllByOwner($id);
+
+        return $this->render('game/user-gallery.html.twig', ['games' => $games, 'user' => $user]);
     }
 
     /**
@@ -48,6 +50,6 @@ class GameController extends AbstractController
         $repo = $doctrine->getRepository(Game::class);
         $game = $repo->find($id);
 
-        return $this->render("game/game-view.html.twig", ['game' => $game]);
+        return $this->render('game/game-view.html.twig', ['game' => $game]);
     }
 }

@@ -13,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Game[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @method Game[]    findAllByOwnerDifferentThan(int $id)
  * @method Game[]    findAllByOwner(int $id)
+ * @method Game[]    findByNameAndOwnerDifferentThan(string $name, int $owner)
  */
 class GameRepository extends ServiceEntityRepository
 {
@@ -29,7 +30,6 @@ class GameRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-
     public function findAllByOwnerDifferentThan($id)
     {
         return $this->getEntityManager()
@@ -38,6 +38,15 @@ class GameRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByNameAndOwnerDifferentThan($query, $id)
+    {
+        // TODO: No funciona la query. Da error cuando hay espacios o tildes.
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT g FROM App:Game g WHERE g.name = $query AND g.owner <> $id")
+            ->getResult();
+    }
+    
     // /**
     //  * @return Game[] Returns an array of Game objects
     //  */

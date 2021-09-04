@@ -16,7 +16,7 @@ class UserController extends AbstractController
      */
     public function user()
     {
-        return $this->render("/user/user-area.html.twig");
+        return $this->render('/user/user-area.html.twig');
     }
 
     /**
@@ -25,9 +25,9 @@ class UserController extends AbstractController
     public function myGames(EntityManagerInterface $doctrine)
     {
         $repo = $doctrine->getRepository(Game::class);
-        $games = $repo->findBy(["owner" => $this->getUser()]);
+        $games = $repo->findBy(['owner' => $this->getUser()]);
 
-        return $this->render("/user/my-games.html.twig", ["games" => $games]);
+        return $this->render('/user/my-games.html.twig', ['games' => $games]);
     }
 
     /**
@@ -73,7 +73,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('gameView', ['id' => $game->getId()]);
         }
 
-        return $this->render("/game/edit-game.html.twig", ['editGameForm' => $form->createView(), 'game' => $game]);
+        return $this->render('/game/edit-game.html.twig', ['editGameForm' => $form->createView(), 'game' => $game]);
     }
 
     /**
@@ -87,9 +87,9 @@ class UserController extends AbstractController
         $doctrine->remove($game);
         $doctrine->flush();
 
-        $this->addFlash('deletionSuccessful', "Se ha eliminado el juego correctamente.");
+        $this->addFlash('deletionSuccessful', 'Se ha eliminado el juego correctamente.');
 
-        return $this->redirectToRoute("myGames");
+        return $this->redirectToRoute('myGames');
     }
 
     /**
@@ -99,9 +99,9 @@ class UserController extends AbstractController
     {
         // TODO: Obtener operations del usuario loggeado y pintar un solo div.
         $repo = $doctrine->getRepository(Operation::class);
-        // $exchanges = $repo->findBy(["borrower"=>$userId, "lender"=>$userId]);
+        // $exchanges = $repo->findBy(['borrower'=>$userId, 'lender'=>$userId]);
 
-        // return $this->render("/user/my-exchanges.html.twig", ["exchanges" => $exchanges]);
+        // return $this->render('/user/my-exchanges.html.twig', ['exchanges' => $exchanges]);
     }
 
     /**
@@ -114,6 +114,6 @@ class UserController extends AbstractController
         $operationsAsBorrower = $repo->find($id);
         $operationsAsLender = $repo->find($id);
 
-        return $this->render("/user/exchange-view.html.twig", ["operationsAsBorrower" => $operationsAsBorrower, "operationsAsLender" => $operationsAsLender]);
+        return $this->render('/user/exchange-view.html.twig', ['operationsAsBorrower' => $operationsAsBorrower, 'operationsAsLender' => $operationsAsLender]);
     }
 }

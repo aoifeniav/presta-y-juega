@@ -71,11 +71,23 @@ class User implements UserInterface
      */
     private $province;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GameRequest::class, mappedBy="borrower")
+     */
+    private $gameRequestsAsBorrower;
+
+    /**
+     * @ORM\OneToMany(targetEntity=GameRequest::class, mappedBy="lender")
+     */
+    private $gameRequestsAsLender;
+
     public function __construct()
     {
         $this->games = new ArrayCollection();
         $this->operationsAsBorrower = new ArrayCollection();
         $this->operationsAsLender = new ArrayCollection();
+        $this->gameRequestsAsBorrower = new ArrayCollection();
+        $this->gameRequestsAsLender = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -293,6 +305,66 @@ class User implements UserInterface
     public function setProvince(?string $province): self
     {
         $this->province = $province;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GameRequest[]
+     */
+    public function getGameRequestsAsBorrower(): Collection
+    {
+        return $this->gameRequestsAsBorrower;
+    }
+
+    public function addGameRequestsAsBorrower(GameRequest $gameRequestsAsBorrower): self
+    {
+        if (!$this->gameRequestsAsBorrower->contains($gameRequestsAsBorrower)) {
+            $this->gameRequestsAsBorrower[] = $gameRequestsAsBorrower;
+            $gameRequestsAsBorrower->setBorrower($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameRequestsAsBorrower(GameRequest $gameRequestsAsBorrower): self
+    {
+        if ($this->gameRequestsAsBorrower->removeElement($gameRequestsAsBorrower)) {
+            // set the owning side to null (unless already changed)
+            if ($gameRequestsAsBorrower->getBorrower() === $this) {
+                $gameRequestsAsBorrower->setBorrower(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GameRequest[]
+     */
+    public function getGameRequestsAsLender(): Collection
+    {
+        return $this->gameRequestsAsLender;
+    }
+
+    public function addGameRequestsAsLender(GameRequest $gameRequestsAsLender): self
+    {
+        if (!$this->gameRequestsAsLender->contains($gameRequestsAsLender)) {
+            $this->gameRequestsAsLender[] = $gameRequestsAsLender;
+            $gameRequestsAsLender->setLender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameRequestsAsLender(GameRequest $gameRequestsAsLender): self
+    {
+        if ($this->gameRequestsAsLender->removeElement($gameRequestsAsLender)) {
+            // set the owning side to null (unless already changed)
+            if ($gameRequestsAsLender->getLender() === $this) {
+                $gameRequestsAsLender->setLender(null);
+            }
+        }
 
         return $this;
     }

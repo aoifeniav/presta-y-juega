@@ -75,9 +75,15 @@ class Game
      */
     private $operations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GameRequest::class, mappedBy="game")
+     */
+    private $requests;
+
     public function __construct()
     {
         $this->operations = new ArrayCollection();
+        $this->requests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -229,6 +235,36 @@ class Game
             // set the owning side to null (unless already changed)
             if ($operation->getGame() === $this) {
                 $operation->setGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GameRequest[]
+     */
+    public function getRequests(): Collection
+    {
+        return $this->requests;
+    }
+
+    public function addRequest(GameRequest $request): self
+    {
+        if (!$this->requests->contains($request)) {
+            $this->requests[] = $request;
+            $request->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRequest(GameRequest $request): self
+    {
+        if ($this->requests->removeElement($request)) {
+            // set the owning side to null (unless already changed)
+            if ($request->getGame() === $this) {
+                $request->setGame(null);
             }
         }
 
