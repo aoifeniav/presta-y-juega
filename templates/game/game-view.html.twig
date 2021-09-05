@@ -89,6 +89,7 @@
 					Loguéate para pedir este juego
 				</div>
 			{% else %}
+				<!-- TODO: Si hay petición activa, este botón debe cambiar -->
 				<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#requestSent">
 					Solicitar juego
 				</button>
@@ -113,4 +114,15 @@
 			</div>
 		</div>
 	</section>
+<script>
+	window.onload = () => {
+		const requestModal = document.getElementById('requestSent')
+		requestModal.addEventListener('hide.bs.modal', async function (event) {
+			const response = await fetch("{{ path('sendRequest', {'game': game.id, 'user': app.user.id}) }}");
+			const result = await response.text();
+			console.log(result);
+		})
+	};
+</script>
+
 {% endblock %}
